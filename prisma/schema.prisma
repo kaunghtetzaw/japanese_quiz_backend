@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model eg_sentence {
+  eg_sentence_id      Int     @id @default(autoincrement())
+  word_id             Int
+  eg_sentence         String  @db.VarChar(500)
+  eg_sentence_reading String  @db.VarChar(500)
+  eg_sentence_meaning String? @db.VarChar(500)
+  word                word    @relation(fields: [word_id], references: [word_id], onDelete: NoAction, onUpdate: NoAction, map: "word_eg_sentence_fb")
+
+  @@index([word_id], map: "word_eg_sentence_idx")
+}
+
+model hiragana {
+  hiragana_id      Int    @id @default(autoincrement())
+  word_id          Int?
+  hiragana_reading String @db.VarChar(100)
+  word             word?  @relation(fields: [word_id], references: [word_id], onDelete: NoAction, onUpdate: NoAction, map: "word_hiragana_fk")
+
+  @@index([word_id], map: "word_hiragana_idx")
+}
+
+model unit {
+  unit_id   Int    @id @default(autoincrement())
+  unit_name String @db.VarChar(100)
+  word      word[]
+}
+
+model word {
+  word_id      Int            @id @default(autoincrement())
+  unit_id      Int
+  word         String         @db.VarChar(100)
+  eg_sentence  eg_sentence[]
+  hiragana     hiragana[]
+  unit         unit           @relation(fields: [unit_id], references: [unit_id], onDelete: NoAction, onUpdate: NoAction, map: "unit_word_fk")
+  word_meaning word_meaning[]
+
+  @@index([unit_id], map: "word_unit_idx")
+}
+
+model word_meaning {
+  word_meaning_id Int    @id @default(autoincrement())
+  word_id         Int
+  word_meaning    String @db.VarChar(100)
+  word            word   @relation(fields: [word_id], references: [word_id], onDelete: NoAction, onUpdate: NoAction, map: "word_meaning_fk")
+
+  @@index([word_id], map: "word_word_meaning_idx")
+}
