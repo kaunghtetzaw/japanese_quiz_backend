@@ -7,6 +7,7 @@ const wordRoute = require("./route/word");
 const hiraganaRoute = require("./route/hiragana");
 const meaningRoute = require("./route/meaning");
 const eg_sentenceRoute = require("./route/eg_sentence");
+const quizRoute = require("./route/quiz");
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use("/word", wordRoute);
 app.use("/hiragana", hiraganaRoute);
 app.use("/meaning", meaningRoute);
 app.use("/sentence", eg_sentenceRoute);
+app.use("/quiz", quizRoute);
 
 app.listen(3000, () => console.log("server started at prot 3000"));
