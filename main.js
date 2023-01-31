@@ -33,4 +33,4 @@ app.use("/meaning", meaningRoute);
 app.use("/sentence", eg_sentenceRoute);
 app.use("/quiz", quizRoute);
 
-app.listen(3000, () => console.log("server started at prot 3000"));
+app.listen(3001, () => console.log("server started at prot 3001"));

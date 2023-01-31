@@ -10,7 +10,6 @@ exports.getWord = async (req, res, next) => {
         unit_id: unit_id,
       },
     });
-    console.log(word);
     res.json({
       value: word,
     });
